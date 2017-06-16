@@ -12,6 +12,9 @@ exports.get = {
         dialect: 'mysql'
     });
     var select_sql = 'SELECT * FROM messages';
+    if(req.query.id){
+        select_sql += ' where typeId = ' + req.query.id;
+    }
     sequelize.query(select_sql, { type: sequelize.QueryTypes.SELECT }).then(function (ret) {
       // SELECT query - use then
       console.log(ret);
@@ -35,13 +38,15 @@ exports.post = {
         name: Sequelize.STRING,
         subject: Sequelize.STRING,
         email: Sequelize.STRING,
-        message: Sequelize.STRING
+        message: Sequelize.STRING,
+        typeId: Sequelize.INTEGER
     });
     Message.create({
         name: req.body.name,
         subject: req.body.subject,
         email: req.body.email,
-        message: req.body.message
+        message: req.body.message,
+        typeId: req.body.typeId,
     }).then(function(ret){
         console.log(ret);
         res.json({result:true,data:ret});
