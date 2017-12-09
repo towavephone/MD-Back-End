@@ -1,5 +1,5 @@
 var Sequelize = require('sequelize');
-
+var MySql = require('../../middlewares/mysql');
 // GET /msg
 exports.get = {
   url: '/msg',
@@ -7,9 +7,10 @@ exports.get = {
     // the logic of this demo is so simple that
     // only `author` in the query condition
 
-    var sequelize = new Sequelize('md_company', 'root', '123456', {
-        host: 'localhost',
-        dialect: 'mysql'
+    var sequelize = new Sequelize(MySql.table, MySql.username, MySql.password, {
+        host: MySql.host,
+        dialect: MySql.dialect,
+        port: MySql.port
     });
     var select_sql = 'SELECT * FROM messages';
     if(req.query.id){
@@ -30,9 +31,10 @@ exports.get = {
 exports.post = {
   url: '/msg/add',
   handler: function (req, res, next) {
-    var sequelize = new Sequelize('md_company', 'root', '123456', {
-        host: 'localhost',
-        dialect: 'mysql'
+    var sequelize = new Sequelize(MySql.table, MySql.username, MySql.password, {
+        host: MySql.host,
+        dialect: MySql.dialect,
+        port: MySql.port
     });
     var Message = sequelize.define('message', {
         name: Sequelize.STRING,
